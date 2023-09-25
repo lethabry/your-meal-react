@@ -1,17 +1,16 @@
 {
-  "extends": "airbnb-base",
+  "extends": "airbnb",
   "plugins": ["react"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
-    }
+    },
+    "sourceType": "module",
+    "parser": "babel-eslint"
   },
   "env": {
     "browser": true,
-    "node": true
-  },
-  "rules": {
-    "react/jsx-uses-react": "error",
-    "react/jsx-uses-vars": "error"
+    "node": true,
+    "es6": true
   }
 }
