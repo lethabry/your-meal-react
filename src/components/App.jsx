@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import FontStyles from './vendor/globalFonts';
-import './App.css';
+import FontStyles from '../vendor/globalFonts';
+import Header from './Header';
 
 function App() {
   const Title = styled.h1`
@@ -11,6 +11,7 @@ function App() {
   return (
     <div className="App">
       <FontStyles />
+      <Header />
       <Title>Hello world!</Title>
     </div>
   );
