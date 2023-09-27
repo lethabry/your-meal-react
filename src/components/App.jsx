@@ -1,18 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
-import FontStyles from '../vendor/globalFonts';
+import FontStyles from '../globalStyles/globalFonts';
+import BodyStyles from '../globalStyles/globalStyles';
 import Header from './Header';
+import NavigationLinks from './NavigationLinks';
+import ShoppingCart from './ShoppingCart';
 
 function App() {
-  const Title = styled.h1`
-    font-weight: 800;
-    font-family: 'Nunito';
-  `;
   return (
     <div className="App">
       <FontStyles />
+      <BodyStyles />
       <Header />
-      <Title>Hello world!</Title>
+      <NavigationLinks />
+      <ShoppingCart />
     </div>
   );
 }
