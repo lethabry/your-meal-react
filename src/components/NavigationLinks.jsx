@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { links } from '../utils/linksArray';
 import NavigationLink from './NavigationLink';
@@ -13,23 +13,19 @@ const Links = styled.ul`
   padding-top: 42px;
 `;
 
-function NavigationLinks() {
-  const [selectedLink, setSelectedLink] = useState({});
-  const handleClick = (link) => setSelectedLink(link);
+function NavigationLinks({ selectedLink, onClick }) {
   return (
     <Links>
-      {links.map((link) => {
-        return (
-          <NavigationLink
-            link={link}
-            onClick={handleClick}
-            key={link.id}
-            name={link.name}
-            icon={link.src}
-            selectedLink={selectedLink}
-          />
-        );
-      })}
+      {links.map((link) => (
+        <NavigationLink
+          link={link}
+          onClick={onClick}
+          key={link.id}
+          name={link.name}
+          icon={link.src}
+          selectedLink={selectedLink}
+        />
+      ))}
     </Links>
   );
 }

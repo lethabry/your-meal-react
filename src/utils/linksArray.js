@@ -13,16 +13,19 @@ export const links = [
     id: 1,
     name: 'Бургеры',
     src: burgers,
+    filter: 'burger',
   },
   {
     id: 2,
     name: 'Закуски',
     src: snacks,
+    filter: 'snacks',
   },
   {
     id: 3,
     name: 'Хот-доги',
     src: hotdogs,
+    filter: 'hotDog',
   },
   {
     id: 4,

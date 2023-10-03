@@ -3,36 +3,25 @@ import { LinkIcon } from './NavigationLink';
 import { shoppingCartArray } from '../utils/shoppingCartArray';
 import ShoppingCartItem from './ShoppingCartItem';
 import deliveryIcon from '../images/Доставка.png';
+import { Counter, TitleMiddle } from '../universalStyles/universalStyles';
 
 const ShoppingCartContainer = styled.article`
   display: flex;
   padding: 24px 16px;
   flex-direction: column;
   background-color: #ffffff;
-  max-width: 300px;
+  min-width: 300px;
+  margin-top: 72px;
   border-radius: 18px;
 `;
+
 const TitleContainer = styled.div`
   display: flex;
   width: 100%;
 `;
-const Title = styled.h2`
+
+const ShoppingCartTitle = styled(TitleMiddle)`
   flex-grow: 2;
-  margin: 0;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 100%;
-`;
-export const Counter = styled.p`
-  margin: 0;
-  padding: 2px 16px;
-  background-color: #f2f2f3;
-  border-radius: 6px;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
 `;
 
 const SubTitle = styled.h3`
@@ -85,7 +74,7 @@ function ShoppingCart() {
   return (
     <ShoppingCartContainer>
       <TitleContainer>
-        <Title>Корзина</Title>
+        <ShoppingCartTitle>Корзина</ShoppingCartTitle>
         <Counter>4</Counter>
       </TitleContainer>
       {shoppingCartArray.map((item) => (
@@ -100,7 +89,7 @@ function ShoppingCart() {
       ))}
       <TitleContainer>
         <SubTitle>Итого</SubTitle>
-        <Price>1279₽</Price>
+        <Price>1279&#160;₽</Price>
       </TitleContainer>
       <Button>Оформить заказ</Button>
       <DeliveryContainer>

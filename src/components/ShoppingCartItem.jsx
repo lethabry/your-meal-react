@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Counter } from './ShoppingCart';
+import { Counter, Text, Weight } from '../universalStyles/universalStyles';
 
 const Item = styled.div`
   display: grid;
@@ -17,31 +17,11 @@ const Image = styled.img.attrs((props) => ({
   grid-row: 1/4;
 `;
 
-const Title = styled.h3`
-  margin: 0;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-`;
-
-const Weight = styled.p`
-  margin: 0;
-  color: #b1b1b1;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+const ShoppingCartItemWeight = styled(Weight)`
   grid-row: 2/3;
 `;
 
-const Price = styled.p`
-  margin: 0;
-  color: #000;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+const Price = styled(Text)`
   grid-row: 3/4;
 `;
 
@@ -73,9 +53,9 @@ function ShoppingCartItem({ name, weight, price, src, count }) {
   return (
     <Item>
       <Image src={src} name={name} />
-      <Title>{name}</Title>
-      <Weight>{weight}</Weight>
-      <Price>{price}</Price>
+      <Text>{name}</Text>
+      <ShoppingCartItemWeight>{weight}&#160;г</ShoppingCartItemWeight>
+      <Price>{price}&#160;₽</Price>
       <CounterContainer>
         <Button>-</Button>
         <Count as="span">{count}</Count>
