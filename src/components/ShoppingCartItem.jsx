@@ -8,6 +8,9 @@ const Item = styled.div`
   padding: 15px 0;
   border-bottom: 1px solid #f2f2f3;
   column-gap: 6px;
+  @media (max-width: 930px) {
+    padding: 12px 0;
+  }
 `;
 
 const Image = styled.img.attrs((props) => ({
