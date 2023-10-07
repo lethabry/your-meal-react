@@ -40,3 +40,45 @@ export const Weight = styled.p`
   font-weight: 400;
   line-height: normal;
 `;
+
+export const Button = styled.button.attrs(() => ({
+  type: 'button',
+}))`
+  cursor: pointer;
+  width: 100%;
+  height: 40px;
+  border-radius: 12px;
+  background-color: #ff7020;
+  border: none;
+  color: #fff;
+  font-family: Nunito;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+`;
+
+export const CounterContainer = styled.div`
+  border-radius: 12px;
+  background: #f2f2f3;
+`;
+
+export const CounterButton = styled.button.attrs(() => ({
+  type: 'button',
+}))`
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  width: 33.33%;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+`;
+
+export const Count = styled(Counter)`
+  display: inline-block;
+  text-align: center;
+  padding: 0;
+  width: 33.33%;
+`;

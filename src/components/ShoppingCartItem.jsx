@@ -1,5 +1,11 @@
 import styled from 'styled-components';
-import { Counter, Text, Weight } from '../universalStyles/universalStyles';
+import {
+  Text,
+  Weight,
+  CounterContainer,
+  CounterButton,
+  Count,
+} from '../universalStyles/universalStyles';
 
 const Item = styled.div`
   display: grid;
@@ -28,30 +34,6 @@ const Price = styled(Text)`
   grid-row: 3/4;
 `;
 
-const CounterContainer = styled.div`
-  border-radius: 12px;
-  background: #f2f2f3;
-`;
-const Button = styled.button.attrs(() => ({
-  type: 'button',
-}))`
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  width: 33.33%;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-`;
-
-const Count = styled(Counter)`
-  display: inline-block;
-  text-align: center;
-  padding: 0;
-  width: 33.33%;
-`;
-
 function ShoppingCartItem({ name, weight, price, src, count }) {
   return (
     <Item>
@@ -60,9 +42,9 @@ function ShoppingCartItem({ name, weight, price, src, count }) {
       <ShoppingCartItemWeight>{weight}&#160;г</ShoppingCartItemWeight>
       <Price>{price}&#160;₽</Price>
       <CounterContainer>
-        <Button>-</Button>
+        <CounterButton>-</CounterButton>
         <Count as="span">{count}</Count>
-        <Button>+</Button>
+        <CounterButton>+</CounterButton>
       </CounterContainer>
     </Item>
   );

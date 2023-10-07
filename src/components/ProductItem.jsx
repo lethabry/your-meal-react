@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { TitleMiddle, Text, Weight } from '../universalStyles/universalStyles';
+import { TitleMiddle, Text, Weight, Button } from '../universalStyles/universalStyles';
 
 const ProductItemContainer = styled.li`
   display: flex;
@@ -50,29 +50,18 @@ const ProductItemWeight = styled(Weight)`
   }
 `;
 
-const ProductItemButton = styled.button.attrs(() => ({
-  type: 'button',
-}))`
-  width: 100%;
+const ProductItemButton = styled(Button)`
   background-color: #f2f2f3;
-  padding: 11px 0;
-  border: none;
-  border-radius: 12px;
   color: #000;
-  font-family: Nunito;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 100%;
   @media (max-width: 930px) {
     font-size: 12px;
   }
 `;
 
-function ProductItem({ src, name, price, weight }) {
+function ProductItem({ src, name, price, weight, onClick }) {
   return (
     <ProductItemContainer>
-      <ProductItemImage src={src} name={name} />
+      <ProductItemImage src={src} name={name} onClick={onClick} />
       <ProductItemPrice>{price} &#160;₽</ProductItemPrice>
       <ProductItemName>{name}</ProductItemName>
       <ProductItemWeight>{weight}&#160;г</ProductItemWeight>

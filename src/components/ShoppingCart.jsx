@@ -4,7 +4,7 @@ import { LinkIcon } from './NavigationLink';
 import { shoppingCartArray } from '../utils/shoppingCartArray';
 import ShoppingCartItem from './ShoppingCartItem';
 import deliveryIcon from '../images/Доставка.png';
-import { Counter, TitleMiddle } from '../universalStyles/universalStyles';
+import { Counter, TitleMiddle, Button } from '../universalStyles/universalStyles';
 
 const ShoppingCartContainer = styled.article`
   display: flex;
@@ -63,22 +63,9 @@ const Price = styled(SubTitle)`
   }
 `;
 
-const Button = styled.button.attrs(() => ({
-  type: 'submit',
-}))`
-  width: 100%;
-  border-radius: 12px;
-  background: #ff7020;
-  height: 40px;
-  border: none;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 100%;
-  color: #fff;
+const ShoppingCartButton = styled(Button)`
   margin-bottom: 8px;
   margin-top: 24px;
-  cursor: pointer;
 
   @media (max-width: 930px) {
     font-size: 12px;
@@ -126,7 +113,7 @@ function ShoppingCart() {
         <SubTitle>Итого</SubTitle>
         <Price>1279&#160;₽</Price>
       </TitleContainer>
-      <Button>Оформить заказ</Button>
+      <ShoppingCartButton>Оформить заказ</ShoppingCartButton>
       <DeliveryContainer>
         <LinkIcon src={deliveryIcon} alt="Значок доставки" />
         <Delivery>Бесплатная доставка</Delivery>

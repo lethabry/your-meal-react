@@ -8,6 +8,7 @@ import Footer from './Footer';
 import { links } from '../utils/linksArray';
 import { productsList } from '../utils/products';
 import ShoppingCart from './ShoppingCart';
+import InfoPopup from './InfoPopup';
 
 function App() {
   const [selectedLink, setSelectedLink] = useState(...links.slice(0, 1));
@@ -27,6 +28,10 @@ function App() {
     return () => window.removeEventListener('resize', handleWidth);
   }, [width]);
 
+  const [isProductPopupOpen, setIsProductPopupOpen] = useState(false);
+  const handleOpenProductPopup = () => setIsProductPopupOpen(!isProductPopupOpen);
+  const closePopups = () => setIsProductPopupOpen(false);
+
   return (
     <div className="App">
       <FontStyles />
@@ -34,8 +39,14 @@ function App() {
       <Header />
       <NavigationLinks selectedLink={selectedLink} onClick={handleLinkClick} />
       {width <= 930 && <ShoppingCart />}
-      <Catalog selectedLink={selectedLink} products={products} width={width} />
+      <Catalog
+        selectedLink={selectedLink}
+        products={products}
+        width={width}
+        onImageClick={handleOpenProductPopup}
+      />
       <Footer />
+      <InfoPopup width={width} isPopupOpen={isProductPopupOpen} onClose={closePopups} />
     </div>
   );
 }

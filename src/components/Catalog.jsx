@@ -39,13 +39,13 @@ const CatalogContainer = styled.div`
   }
 `;
 
-function Catalog({ selectedLink, products, width }) {
+function Catalog({ selectedLink, products, width, onImageClick }) {
   return (
     <Wrapper>
       {width > 930 && <ShoppingCart />}
       <CatalogContainer>
         <CatalogTitle>{selectedLink.name}</CatalogTitle>
-        <ProductList products={products} />
+        <ProductList products={products} onImageClick={onImageClick} />
       </CatalogContainer>
     </Wrapper>
   );
