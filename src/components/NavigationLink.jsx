@@ -4,6 +4,7 @@ const Link = styled.li.attrs((props) => ({
   selected: props.selected.name === props.name,
 }))`
   display: flex;
+  align-items: center;
   padding: 0;
   padding: 8px 14px;
   border-radius: 50px;
@@ -33,6 +34,10 @@ const LinkText = styled.span`
   font-weight: 400;
   line-height: normal;
   color: #000;
+
+  @media (max-width: 930px) {
+    font-size: 12px;
+  }
 `;
 
 function NavigationLink({ name, icon, selectedLink, onClick, link }) {

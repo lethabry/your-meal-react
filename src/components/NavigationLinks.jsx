@@ -11,6 +11,16 @@ const Links = styled.ul`
   padding: 0;
   margin: 0;
   padding-top: 42px;
+
+  @media (max-width: 930px) {
+    gap: 12px;
+    padding: 30px 64px 0;
+  }
+
+  @media (max-width: 474px) {
+    padding: 30px 10px 0;
+    gap: 8px;
+  }
 `;
 
 function NavigationLinks({ selectedLink, onClick }) {

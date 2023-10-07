@@ -4,7 +4,7 @@ import logoPath from '../images/header-logo.svg';
 import headerPicture from '../images/header__pic.png';
 
 const HeaderBlock = styled.header`
-  display: block;
+  margin: 0 auto;
 `;
 
 const Logo = styled.img.attrs((props) => ({
@@ -18,22 +18,34 @@ const Logo = styled.img.attrs((props) => ({
 `;
 
 const HeaderMain = styled.div`
-  height: 445px;
   padding-top: 21px;
   background-color: #ffab08;
-  border-radius: 100% 0% 50% 50% / 0% 0% 100% 100%;
 `;
 const HeaderPicture = styled.img.attrs((props) => ({
   src: props.src,
   alt: 'Фотография бургера',
 }))`
   max-width: 326px;
+  @media (max-width: 930px) {
+    max-width: 227px;
+  }
 `;
 
 const HeaderContent = styled.div`
   display: flex;
   justify-content: center;
   gap: 19px;
+  padding-bottom: 63px;
+
+  @media (max-width: 930px) {
+    gap: 10px;
+    padding-bottom: 44px;
+  }
+  @media (max-width: 474px) {
+    flex-direction: column-reverse;
+    align-items: center;
+    padding-bottom: 30px;
+  }
 `;
 
 const Title = styled.h1`
@@ -45,6 +57,17 @@ const Title = styled.h1`
   font-weight: 800;
   line-height: 120%;
   color: #fff;
+
+  @media (max-width: 930px) {
+    font-size: 36px;
+    margin-top: 27px;
+    max-width: 325px;
+  }
+  @media (max-width: 474px) {
+    margin-top: 0;
+    text-align: center;
+    font-size: 30px;
+  }
 `;
 
 const Span = styled.span`
@@ -58,12 +81,24 @@ const Text = styled.p`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  @media (max-width: 930px) {
+    font-size: 12px;
+  }
+  @media (max-width: 474px) {
+    text-align: center;
+  }
 `;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 52px;
+  @media (max-width: 930px) {
+    gap: 26px;
+  }
+  @media (max-width: 474px) {
+    gap: 16px;
+  }
 `;
 
 function Header() {

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { LinkIcon } from './NavigationLink';
 import { shoppingCartArray } from '../utils/shoppingCartArray';
@@ -10,9 +11,23 @@ const ShoppingCartContainer = styled.article`
   padding: 24px 16px;
   flex-direction: column;
   background-color: #ffffff;
-  min-width: 300px;
+  min-width: 268px;
   margin-top: 72px;
   border-radius: 18px;
+
+  @media (max-width: 930px) {
+    position: absolute;
+    height: ${(props) => (props.isClicked ? '452px' : '10px')};
+    margin: 36px 0 30px 64px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.7s ease;
+    box-shadow: ${(props) => (props.isClicked ? '0px 0px 10px 0px rgba(0, 0, 0, 0.16)' : 'none')};
+  }
+
+  @media (max-width: 474px) {
+    margin: 30px 0 30px 10px;
+  }
 `;
 
 const TitleContainer = styled.div`
@@ -22,6 +37,10 @@ const TitleContainer = styled.div`
 
 const ShoppingCartTitle = styled(TitleMiddle)`
   flex-grow: 2;
+
+  @media (max-width: 930px) {
+    font-size: 16px;
+  }
 `;
 
 const SubTitle = styled.h3`
@@ -32,10 +51,16 @@ const SubTitle = styled.h3`
   font-style: normal;
   font-weight: 400;
   line-height: 130%;
+  @media (max-width: 930px) {
+    font-size: 12px;
+  }
 `;
 
 const Price = styled(SubTitle)`
   flex-grow: 0;
+  @media (max-width: 930px) {
+    font-size: 12px;
+  }
 `;
 
 const Button = styled.button.attrs(() => ({
@@ -54,6 +79,10 @@ const Button = styled.button.attrs(() => ({
   margin-bottom: 8px;
   margin-top: 24px;
   cursor: pointer;
+
+  @media (max-width: 930px) {
+    font-size: 12px;
+  }
 `;
 
 const Delivery = styled.span`
@@ -63,6 +92,9 @@ const Delivery = styled.span`
   font-weight: 400;
   line-height: 28px;
   vertical-align: middle;
+  @media (max-width: 930px) {
+    font-size: 10px;
+  }
 `;
 
 const DeliveryContainer = styled.div`
@@ -71,9 +103,12 @@ const DeliveryContainer = styled.div`
 `;
 
 function ShoppingCart() {
+  const [isClicked, setIsClicked] = useState(false);
+  const handleClick = () => setIsClicked(!isClicked);
+
   return (
-    <ShoppingCartContainer>
-      <TitleContainer>
+    <ShoppingCartContainer isClicked={isClicked}>
+      <TitleContainer onClick={handleClick}>
         <ShoppingCartTitle>Корзина</ShoppingCartTitle>
         <Counter>4</Counter>
       </TitleContainer>
