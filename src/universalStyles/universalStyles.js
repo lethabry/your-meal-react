@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import ButtonClosePath from '../images/close.svg';
 
 export const Counter = styled.p`
   margin: 0;
@@ -81,4 +82,51 @@ export const Count = styled(Counter)`
   text-align: center;
   padding: 0;
   width: 33.33%;
+`;
+
+export const Popup = styled.div`
+  background-color: rgba(0, 0, 0, 0.8);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  visibility: ${(props) => (props.isPopupOpen ? 'visible' : 'hidden')};
+  opacity: ${(props) => (props.isPopupOpen ? '1' : '0')};
+  display: flex;
+  transition: all 0.5s ease;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const PopupBlock = styled.div`
+  position: relative;
+  padding: 24px 24px 36px;
+  border-radius: 24px;
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  @media (max-width: 812px) {
+    padding: 16px 16px 24px;
+    width: calc(100% - 64px - 64px);
+  }
+  @media (max-width: 474px) {
+    width: 100%;
+    height: calc(100vh - 16px - 24px);
+  }
+`;
+
+export const ButtonClose = styled.button.attrs(() => ({
+  type: 'button',
+}))`
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background-image: url(${ButtonClosePath});
+  background-size: contain;
+  border: none;
+  background-color: transparent;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  cursor: pointer;
 `;

@@ -7,39 +7,12 @@ import {
   CounterContainer,
   CounterButton,
   Count,
+  Popup,
+  PopupBlock,
+  ButtonClose,
 } from '../universalStyles/universalStyles';
 import ImagePath from '../images/burger_1.png';
-import ButtonClosePath from '../images/close.svg';
 
-const Popup = styled.div`
-  background-color: rgba(0, 0, 0, 0.8);
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  visibility: ${(props) => (props.isPopupOpen ? 'visible' : 'hidden')};
-  opacity: ${(props) => (props.isPopupOpen ? '1' : '0')};
-  display: flex;
-  transition: all 0.5s ease;
-  justify-content: center;
-  align-items: center;
-`;
-const PopupBlock = styled.div`
-  position: relative;
-  padding: 24px 24px 36px;
-  border-radius: 24px;
-  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
-  background: #fff;
-  @media (max-width: 812px) {
-    padding: 16px 16px 24px;
-    width: calc(100% - 64px - 64px);
-  }
-  @media (max-width: 474px) {
-    width: 100%;
-    height: calc(100vh - 16px - 24px);
-  }
-`;
 const PopupTitle = styled(TitleBig)`
   margin-bottom: 24px;
   @media (max-width: 812px) {
@@ -53,6 +26,9 @@ const InfoPopupContent = styled.div`
   gap: 40px;
   flex-shrink: 2;
   width: calc(100% - 16px - 16px);
+  @media (max-width: 474px) {
+    width: 100%;
+  }
 `;
 const InfoPopupMain = styled.div`
   display: flex;
@@ -69,7 +45,7 @@ const InfoPopupImage = styled.img.attrs((props) => ({
   max-width: 276px;
   @media (max-width: 474px) {
     max-width: 100%;
-    object-fit: cover;
+    width: 100%;
   }
 `;
 const PopupButton = styled(Button)``;
@@ -130,21 +106,9 @@ const PopupPrice = styled(TitleBig)`
   @media (max-width: 812px) {
     font-size: 16px;
   }
-`;
-const ButtonClose = styled.button.attrs(() => ({
-  type: 'button',
-}))`
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  background-image: url(${ButtonClosePath});
-  background-size: contain;
-  border: none;
-  background-color: transparent;
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  cursor: pointer;
+  @media (max-width: 474px) {
+    width: 100%;
+  }
 `;
 const PopupRow = styled.div`
   display: flex;
@@ -199,6 +163,7 @@ function InfoPopup({ width, isPopupOpen, onClose }) {
                 </>
               )}
             </PopupRow>
+            {width <= 474 && <PopupPrice as="p">689₽</PopupPrice>}
           </InfoPopupContent>
         </InfoPopupMain>
         <ButtonClose onClick={onClose} />

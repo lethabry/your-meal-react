@@ -9,6 +9,7 @@ import { links } from '../utils/linksArray';
 import { productsList } from '../utils/products';
 import ShoppingCart from './ShoppingCart';
 import InfoPopup from './InfoPopup';
+import DeliveryPopup from './DeliveryPopup';
 
 function App() {
   const [selectedLink, setSelectedLink] = useState(...links.slice(0, 1));
@@ -31,6 +32,7 @@ function App() {
   const [isProductPopupOpen, setIsProductPopupOpen] = useState(false);
   const handleOpenProductPopup = () => setIsProductPopupOpen(!isProductPopupOpen);
   const closePopups = () => setIsProductPopupOpen(false);
+  const [isDeliveryPopupOpen, setIsDeliveryPopupOpen] = useState(true);
 
   return (
     <div className="App">
@@ -47,6 +49,7 @@ function App() {
       />
       <Footer />
       <InfoPopup width={width} isPopupOpen={isProductPopupOpen} onClose={closePopups} />
+      <DeliveryPopup width={width} isPopupOpen={isDeliveryPopupOpen} />
     </div>
   );
 }
