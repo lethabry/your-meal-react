@@ -17,7 +17,7 @@ const ShoppingCartContainer = styled.article`
 
   @media (max-width: 930px) {
     position: absolute;
-    height: ${(props) => (props.isClicked ? '452px' : '10px')};
+    height: ${(props) => (props.isClicked ? '425px' : '8px')};
     margin: 36px 0 30px 64px;
     overflow: hidden;
     cursor: pointer;
@@ -89,7 +89,7 @@ const DeliveryContainer = styled.div`
   gap: 8px;
 `;
 
-function ShoppingCart() {
+function ShoppingCart({ onDeliveryPopupClick }) {
   const [isClicked, setIsClicked] = useState(false);
   const handleClick = () => setIsClicked(!isClicked);
 
@@ -113,7 +113,7 @@ function ShoppingCart() {
         <SubTitle>Итого</SubTitle>
         <Price>1279&#160;₽</Price>
       </TitleContainer>
-      <ShoppingCartButton>Оформить заказ</ShoppingCartButton>
+      <ShoppingCartButton onClick={onDeliveryPopupClick}>Оформить заказ</ShoppingCartButton>
       <DeliveryContainer>
         <LinkIcon src={deliveryIcon} alt="Значок доставки" />
         <Delivery>Бесплатная доставка</Delivery>

@@ -57,6 +57,11 @@ export const Button = styled.button.attrs(() => ({
   font-style: normal;
   font-weight: 400;
   line-height: 100%;
+  transition: background-color 0.5s ease;
+
+  &:hover {
+    background-color: #ffab08;
+  }
 `;
 
 export const CounterContainer = styled.div`
@@ -129,4 +134,9 @@ export const ButtonClose = styled.button.attrs(() => ({
   top: 24px;
   right: 24px;
   cursor: pointer;
+  scale: 1;
+  transition: scale 0.5s ease;
+  &:hover {
+    scale: 1.2;
+  }
 `;

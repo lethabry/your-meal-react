@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import ShoppingCart from './ShoppingCart';
 import ProductList from './ProductsList';
 import { TitleBig } from '../universalStyles/universalStyles';
+import { useDispatch } from 'react-redux';
 
 const Wrapper = styled.main`
   padding: 50px 75px 100px;
@@ -39,10 +40,10 @@ const CatalogContainer = styled.div`
   }
 `;
 
-function Catalog({ selectedLink, products, width, onImageClick }) {
+function Catalog({ selectedLink, products, width, onImageClick, onDeliveryPopupClick }) {
   return (
     <Wrapper>
-      {width > 930 && <ShoppingCart />}
+      {width > 930 && <ShoppingCart onDeliveryPopupClick={onDeliveryPopupClick} />}
       <CatalogContainer>
         <CatalogTitle>{selectedLink.name}</CatalogTitle>
         <ProductList products={products} onImageClick={onImageClick} />
