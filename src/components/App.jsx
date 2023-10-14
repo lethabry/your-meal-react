@@ -10,25 +10,23 @@ import { productsList } from '../utils/products';
 import ShoppingCart from './ShoppingCart';
 import InfoPopup from './InfoPopup';
 import DeliveryPopup from './DeliveryPopup';
+import { useSelector, useDispatch } from 'react-redux';
+import { filterProducts } from '../store/poductsSlice';
 
 function App() {
+  const dispatch = useDispatch();
   const [selectedLink, setSelectedLink] = useState(...links.slice(0, 1));
-  const [products, setProducts] = useState(
-    productsList.filter((products) => products.filter === 'burger')
-  );
   const handleLinkClick = (link) => {
+    const filterName = link.filter;
     setSelectedLink(link);
-    setProducts(productsList.filter((product) => product.filter === link.filter));
+    dispatch(filterProducts(filterName));
   };
-
   const [width, setWidth] = useState(window.innerWidth);
   const handleWidth = () => setWidth(window.innerWidth);
-
   useEffect(() => {
     window.addEventListener('resize', handleWidth);
     return () => window.removeEventListener('resize', handleWidth);
   }, [width]);
-
   return (
     <div className="App">
       <FontStyles />
@@ -36,7 +34,7 @@ function App() {
       <Header />
       <NavigationLinks selectedLink={selectedLink} onClick={handleLinkClick} />
       {width <= 930 && <ShoppingCart />}
-      <Catalog selectedLink={selectedLink} products={products} width={width} />
+      <Catalog selectedLink={selectedLink} width={width} />
       <Footer />
       <InfoPopup width={width} />
       <DeliveryPopup />

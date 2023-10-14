@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 import ProductItem from './ProductItem';
+import { useEffect, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { filterProducts } from '../store/poductsSlice';
 
 const List = styled.ul`
   padding: 0;
@@ -22,7 +25,14 @@ const List = styled.ul`
   }
 `;
 
-function ProductList({ products }) {
+function ProductList() {
+  const products = useSelector((state) => state.products.products);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(filterProducts('burger'));
+  }, []);
+
   return (
     <List>
       {products.map((product) => (
