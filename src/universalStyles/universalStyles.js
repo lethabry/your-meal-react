@@ -96,8 +96,8 @@ export const Popup = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  visibility: ${(props) => (props.isPopupOpen ? 'visible' : 'hidden')};
-  opacity: ${(props) => (props.isPopupOpen ? '1' : '0')};
+  visibility: ${(props) => (props.$isPopupOpen ? 'visible' : 'hidden')};
+  opacity: ${(props) => (props.$isPopupOpen ? '1' : '0')};
   display: flex;
   transition: all 0.5s ease;
   justify-content: center;

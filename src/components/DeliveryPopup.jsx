@@ -92,8 +92,8 @@ const FormInputPhone = styled(FormInputName).attrs(() => ({
 const FormInputAddress = styled(FormInputName).attrs(() => ({
   placeholder: 'Улица, дом, квартира',
 }))`
-  visibility: ${({ deliveryState }) =>
-    deliveryState.selected === 'delivery' ? 'visible' : 'hidden'};
+  visibility: ${({ $deliveryState }) =>
+    $deliveryState.selected === 'delivery' ? 'visible' : 'hidden'};
 `;
 
 const FormInputFloor = styled(FormInputName).attrs(() => ({
@@ -151,8 +151,8 @@ const RadioRow = styled.div`
 `;
 
 const RadioRowDeliveryAdress = styled(RadioRow)`
-  visibility: ${({ deliveryState }) =>
-    deliveryState.selected === 'delivery' ? 'visible' : 'hidden'};
+  visibility: ${({ $deliveryState }) =>
+    $deliveryState.selected === 'delivery' ? 'visible' : 'hidden'};
 `;
 
 const DeliveryButton = styled(Button).attrs(() => ({
@@ -171,7 +171,7 @@ function DeliveryPopup() {
   const isPopupOpen = useSelector((state) => state.popup.isDeliveryPopupOpen);
 
   return (
-    <Popup isPopupOpen={isPopupOpen}>
+    <Popup $isPopupOpen={isPopupOpen}>
       <DeliveryBlockPopup>
         <ImageContent>
           <ImagePopup src={DeliveryImagePath} />
@@ -195,8 +195,8 @@ function DeliveryPopup() {
               />
               <FormRadioDeliveryLabel>Доставка</FormRadioDeliveryLabel>
             </RadioRow>
-            <FormInputAddress deliveryState={deliveryState} />
-            <RadioRowDeliveryAdress deliveryState={deliveryState}>
+            <FormInputAddress $deliveryState={deliveryState} />
+            <RadioRowDeliveryAdress $deliveryState={deliveryState}>
               <FormInputFloor />
               <FormInputIntercom />
             </RadioRowDeliveryAdress>

@@ -19,12 +19,12 @@ const ShoppingCartContainer = styled.article`
 
   @media (max-width: 930px) {
     position: absolute;
-    height: ${(props) => (props.isClicked ? '425px' : '8px')};
+    height: ${(props) => (props.$isClicked ? '425px' : '8px')};
     margin: 36px 0 30px 64px;
     overflow: hidden;
     cursor: pointer;
     transition: all 0.7s ease;
-    box-shadow: ${(props) => (props.isClicked ? '0px 0px 10px 0px rgba(0, 0, 0, 0.16)' : 'none')};
+    box-shadow: ${(props) => (props.$isClicked ? '0px 0px 10px 0px rgba(0, 0, 0, 0.16)' : 'none')};
   }
 
   @media (max-width: 474px) {
@@ -97,7 +97,7 @@ function ShoppingCart() {
   const handleClick = () => setIsClicked(!isClicked);
 
   return (
-    <ShoppingCartContainer isClicked={isClicked}>
+    <ShoppingCartContainer $isClicked={isClicked}>
       <TitleContainer onClick={handleClick}>
         <ShoppingCartTitle>Корзина</ShoppingCartTitle>
         <Counter>4</Counter>

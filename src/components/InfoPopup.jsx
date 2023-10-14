@@ -122,7 +122,7 @@ function InfoPopup({ width }) {
   const dispatch = useDispatch();
   const isPopupOpen = useSelector((state) => state.popup.isInfoPopupOpen);
   return (
-    <Popup isPopupOpen={isPopupOpen}>
+    <Popup $isPopupOpen={isPopupOpen}>
       <PopupBlock>
         <PopupTitle>Мясная бомба</PopupTitle>
         <InfoPopupMain>
