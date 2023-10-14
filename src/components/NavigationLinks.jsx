@@ -1,6 +1,8 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setActive } from '../store/linksSlice';
 import styled from 'styled-components';
-import { links } from '../utils/linksArray';
 import NavigationLink from './NavigationLink';
 
 const Links = styled.ul`
@@ -23,17 +25,22 @@ const Links = styled.ul`
   }
 `;
 
-function NavigationLinks({ selectedLink, onClick }) {
+function NavigationLinks() {
+  const navigateLinks = useSelector((state) => state.links.links);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setActive('Бургеры'));
+  }, []);
+
   return (
     <Links>
-      {links.map((link) => (
+      {navigateLinks.map((link) => (
         <NavigationLink
           link={link}
-          onClick={onClick}
           key={link.id}
           name={link.name}
           icon={link.src}
-          selectedLink={selectedLink}
+          selected={link.selected}
         />
       ))}
     </Links>

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import ProductItem from './ProductItem';
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { filterProducts } from '../store/poductsSlice';
 

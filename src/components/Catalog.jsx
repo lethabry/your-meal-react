@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import ShoppingCart from './ShoppingCart';
 import ProductList from './ProductsList';
 import { TitleBig } from '../universalStyles/universalStyles';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 const Wrapper = styled.main`
   padding: 50px 75px 100px;
@@ -40,7 +41,13 @@ const CatalogContainer = styled.div`
   }
 `;
 
-function Catalog({ selectedLink, width }) {
+function Catalog({ width }) {
+  const navigationLinks = useSelector((state) => state.links.links);
+  const [selectedLink, setSelectedLink] = useState({});
+  useEffect(() => {
+    setSelectedLink(navigationLinks.find((link) => link.selected === true));
+  }, [navigationLinks]);
+
   return (
     <Wrapper>
       {width > 930 && <ShoppingCart />}

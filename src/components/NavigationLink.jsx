@@ -1,7 +1,10 @@
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { setActive } from '../store/linksSlice';
+import { filterProducts } from '../store/poductsSlice';
 
 const Link = styled.li.attrs((props) => ({
-  selected: props.selected.name === props.name,
+  selected: props.selected,
 }))`
   display: flex;
   align-items: center;
@@ -40,9 +43,17 @@ const LinkText = styled.span`
   }
 `;
 
-function NavigationLink({ name, icon, selectedLink, onClick, link }) {
+function NavigationLink({ name, icon, link, selected }) {
+  const dispatch = useDispatch();
+
+  const handleClick = (link) => {
+    const filterName = link.filter;
+    dispatch(setActive(name));
+    dispatch(filterProducts(filterName));
+  };
+
   return (
-    <Link selected={selectedLink} name={name} onClick={() => onClick(link)}>
+    <Link selected={selected} name={name} onClick={() => handleClick(link)}>
       <LinkIcon src={icon} />
       <LinkText>{name}</LinkText>
     </Link>
