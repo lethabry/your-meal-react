@@ -6,6 +6,8 @@ import {
   CounterButton,
   Count,
 } from '../universalStyles/universalStyles';
+import { useDispatch } from 'react-redux';
+import { openInfoPopup } from '../store/popupSlice';
 
 const Item = styled.div`
   display: grid;
@@ -24,6 +26,7 @@ const Image = styled.img.attrs((props) => ({
   alt: `Фотография ${props.name}`,
 }))`
   grid-row: 1/4;
+  cursor: pointer;
 `;
 
 const ShoppingCartItemWeight = styled(Weight)`
@@ -35,9 +38,10 @@ const Price = styled(Text)`
 `;
 
 function ShoppingCartItem({ name, weight, price, src, count }) {
+  const dispatch = useDispatch();
   return (
     <Item>
-      <Image src={src} name={name} />
+      <Image src={src} name={name} onClick={() => dispatch(openInfoPopup())} />
       <Text>{name}</Text>
       <ShoppingCartItemWeight>{weight}&#160;г</ShoppingCartItemWeight>
       <Price>{price}&#160;₽</Price>

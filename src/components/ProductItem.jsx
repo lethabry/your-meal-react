@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { TitleMiddle, Text, Weight, Button } from '../universalStyles/universalStyles';
 import { useDispatch } from 'react-redux';
-import { openPopup } from '../store/popupSlice';
+import { openInfoPopup } from '../store/popupSlice';
 
 const ProductItemContainer = styled.li`
   display: flex;
@@ -21,6 +21,7 @@ const ProductItemImage = styled.img.attrs((props) => ({
 }))`
   border-radius: 12px;
   margin-bottom: 16px;
+  cursor: pointer;
 `;
 
 const ProductItemName = styled(Text)`
@@ -62,10 +63,9 @@ const ProductItemButton = styled(Button)`
 
 function ProductItem({ src, name, price, weight }) {
   const dispatch = useDispatch();
-
   return (
     <ProductItemContainer>
-      <ProductItemImage src={src} name={name} onClick={() => dispatch(openPopup())} />
+      <ProductItemImage src={src} name={name} onClick={() => dispatch(openInfoPopup())} />
       <ProductItemPrice>{price} &#160;₽</ProductItemPrice>
       <ProductItemName>{name}</ProductItemName>
       <ProductItemWeight>{weight}&#160;г</ProductItemWeight>

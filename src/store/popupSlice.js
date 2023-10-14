@@ -3,18 +3,22 @@ import { createSlice } from '@reduxjs/toolkit';
 const popupSlice = createSlice({
   name: 'popup',
   initialState: {
-    isPopupOpen: false,
+    isDeliveryPopupOpen: false,
+    isInfoPopupOpen: false,
   },
   reducers: {
-    openPopup(state, action) {
-      console.log(state, action);
-      state.isPopupOpen = !state.isPopupOpen;
+    openInfoPopup(state, action) {
+      state.isInfoPopupOpen = !state.isInfoPopupOpen;
     },
-    closePopup(state, action) {
-      state.isPopupOpen = false;
+    closePopups(state, action) {
+      state.isInfoPopupOpen = false;
+      state.isDeliveryPopupOpen = false;
+    },
+    openDeliveryPopup(state, action) {
+      state.isDeliveryPopupOpen = !state.isDeliveryPopupOpen;
     },
   },
 });
 
-export const { openPopup, closePopup } = popupSlice.actions;
+export const { openInfoPopup, closePopups, openDeliveryPopup } = popupSlice.actions;
 export default popupSlice.reducer;

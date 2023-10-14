@@ -22,12 +22,11 @@ const List = styled.ul`
   }
 `;
 
-function ProductList({ products, onImageClick }) {
+function ProductList({ products }) {
   return (
     <List>
       {products.map((product) => (
         <ProductItem
-          onClick={onImageClick}
           key={product.id}
           src={product.image}
           weight={product.weight}

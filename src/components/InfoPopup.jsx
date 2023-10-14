@@ -12,8 +12,8 @@ import {
   ButtonClose,
 } from '../universalStyles/universalStyles';
 import ImagePath from '../images/burger_1.png';
-import { useDispatch } from 'react-redux';
-import { closePopup } from '../store/popupSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { closePopups } from '../store/popupSlice';
 
 const PopupTitle = styled(TitleBig)`
   margin-bottom: 24px;
@@ -118,9 +118,9 @@ const PopupRow = styled.div`
   align-items: center;
   gap: 8px;
 `;
-function InfoPopup({ width, isPopupOpen }) {
+function InfoPopup({ width }) {
   const dispatch = useDispatch();
-
+  const isPopupOpen = useSelector((state) => state.popup.isInfoPopupOpen);
   return (
     <Popup isPopupOpen={isPopupOpen}>
       <PopupBlock>
@@ -170,7 +170,7 @@ function InfoPopup({ width, isPopupOpen }) {
             {width <= 474 && <PopupPrice as="p">689₽</PopupPrice>}
           </InfoPopupContent>
         </InfoPopupMain>
-        <ButtonClose onClick={() => dispatch(closePopup())} />
+        <ButtonClose onClick={() => dispatch(closePopups())} />
       </PopupBlock>
     </Popup>
   );

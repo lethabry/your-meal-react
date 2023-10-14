@@ -40,13 +40,13 @@ const CatalogContainer = styled.div`
   }
 `;
 
-function Catalog({ selectedLink, products, width, onImageClick, onDeliveryPopupClick }) {
+function Catalog({ selectedLink, products, width }) {
   return (
     <Wrapper>
-      {width > 930 && <ShoppingCart onDeliveryPopupClick={onDeliveryPopupClick} />}
+      {width > 930 && <ShoppingCart />}
       <CatalogContainer>
         <CatalogTitle>{selectedLink.name}</CatalogTitle>
-        <ProductList products={products} onImageClick={onImageClick} />
+        <ProductList products={products} />
       </CatalogContainer>
     </Wrapper>
   );

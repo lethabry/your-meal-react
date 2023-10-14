@@ -8,6 +8,8 @@ import {
   Button,
 } from '../universalStyles/universalStyles';
 import DeliveryImagePath from '../images/Delivery.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { closePopups } from '../store/popupSlice';
 
 const DeliveryBlockPopup = styled(PopupBlock)`
   padding: 0;
@@ -162,9 +164,11 @@ const DeliveryButton = styled(Button).attrs(() => ({
   }
 `;
 
-function DeliveryPopup({ isPopupOpen, onClose }) {
+function DeliveryPopup() {
+  const dispatch = useDispatch();
   const [deliveryState, setDeliveryState] = useState({ selected: 'delivery' });
   const handleChangeDelivery = (e) => setDeliveryState({ selected: e.target.value });
+  const isPopupOpen = useSelector((state) => state.popup.isDeliveryPopupOpen);
 
   return (
     <Popup isPopupOpen={isPopupOpen}>
@@ -198,7 +202,7 @@ function DeliveryPopup({ isPopupOpen, onClose }) {
             </RadioRowDeliveryAdress>
             <DeliveryButton>Оформить</DeliveryButton>
           </DeliveryForm>
-          <ButtonClose onClick={onClose} />
+          <ButtonClose onClick={() => dispatch(closePopups())} />
         </DeliveryFormContent>
       </DeliveryBlockPopup>
     </Popup>

@@ -5,6 +5,8 @@ import { shoppingCartArray } from '../utils/shoppingCartArray';
 import ShoppingCartItem from './ShoppingCartItem';
 import deliveryIcon from '../images/Доставка.png';
 import { Counter, TitleMiddle, Button } from '../universalStyles/universalStyles';
+import { useDispatch } from 'react-redux';
+import { openDeliveryPopup } from '../store/popupSlice';
 
 const ShoppingCartContainer = styled.article`
   display: flex;
@@ -89,7 +91,8 @@ const DeliveryContainer = styled.div`
   gap: 8px;
 `;
 
-function ShoppingCart({ onDeliveryPopupClick }) {
+function ShoppingCart() {
+  const dispatch = useDispatch();
   const [isClicked, setIsClicked] = useState(false);
   const handleClick = () => setIsClicked(!isClicked);
 
@@ -113,7 +116,9 @@ function ShoppingCart({ onDeliveryPopupClick }) {
         <SubTitle>Итого</SubTitle>
         <Price>1279&#160;₽</Price>
       </TitleContainer>
-      <ShoppingCartButton onClick={onDeliveryPopupClick}>Оформить заказ</ShoppingCartButton>
+      <ShoppingCartButton onClick={() => dispatch(openDeliveryPopup())}>
+        Оформить заказ
+      </ShoppingCartButton>
       <DeliveryContainer>
         <LinkIcon src={deliveryIcon} alt="Значок доставки" />
         <Delivery>Бесплатная доставка</Delivery>
