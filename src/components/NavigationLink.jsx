@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { setActive } from '../store/linksSlice';
-import { filterProducts } from '../store/poductsSlice';
+import { fetchProducts } from '../store/poductsSlice';
 
 const Link = styled.li.attrs((props) => ({
   selected: props.selected,
@@ -43,17 +43,16 @@ const LinkText = styled.span`
   }
 `;
 
-function NavigationLink({ name, icon, link, selected }) {
+function NavigationLink({ name, icon, selected }) {
   const dispatch = useDispatch();
 
-  const handleClick = (link) => {
-    const filterName = link.filter;
+  const handleClick = () => {
     dispatch(setActive(name));
-    dispatch(filterProducts(filterName));
+    dispatch(fetchProducts(name));
   };
 
   return (
-    <Link selected={selected} name={name} onClick={() => handleClick(link)}>
+    <Link selected={selected} name={name} onClick={() => handleClick()}>
       <LinkIcon src={icon} />
       <LinkText>{name}</LinkText>
     </Link>

@@ -1,15 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { productsList } from '../utils/products';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { getProductByCategory } from '../utils/api';
+
+export const fetchProducts = createAsyncThunk(
+  'products/getProducts',
+  async (categoryName) => await getProductByCategory(categoryName)
+);
 
 const productsSlice = createSlice({
   name: 'products',
   initialState: {
-    products: [...productsList],
+    products: [],
   },
-  reducers: {
-    filterProducts(state, action) {
-      state.products = productsList.filter((product) => product.filter === action.payload);
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchProducts.fulfilled, (state, action) => {
+      state.products = action.payload;
+    });
   },
 });
 

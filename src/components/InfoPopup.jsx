@@ -45,6 +45,9 @@ const InfoPopupImage = styled.img.attrs((props) => ({
 }))`
   width: 100%;
   max-width: 276px;
+  height: 100%;
+  max-height: 220px;
+  border-radius: 16px;
   @media (max-width: 474px) {
     max-width: 100%;
     width: 100%;
@@ -120,31 +123,29 @@ const PopupRow = styled.div`
 `;
 function InfoPopup({ width }) {
   const dispatch = useDispatch();
-  const isPopupOpen = useSelector((state) => state.popup.isInfoPopupOpen);
+  const isPopupOpen = useSelector((state) => state.popup.infoPopup.isInfoPopupOpen);
+  const popupContent = useSelector((state) => state.popup.infoPopup.content);
   return (
     <Popup $isPopupOpen={isPopupOpen}>
       <PopupBlock>
-        <PopupTitle>Мясная бомба</PopupTitle>
+        <PopupTitle>{popupContent.name}</PopupTitle>
         <InfoPopupMain>
           <InfoPopupContent>
-            <InfoPopupImage src={ImagePath} />
+            <InfoPopupImage src={popupContent.image} alt={`Фотография ${popupContent.name}`} />
             {width > 474 && <PopupButton>Добавить</PopupButton>}
           </InfoPopupContent>
           <InfoPopupContent>
             <div>
-              <PopupText>
-                Супер мясное наслаждение! Большая рубленая котлета из свежего говяжего мяса покорит
-                вас своей сочностью, а хрустящие листья салата добавят свежести.
-              </PopupText>
+              <PopupText>{popupContent.description}</PopupText>
               <PopupList>
                 Состав:
-                <PopupItem as="li">Пшеничная булочка</PopupItem>
-                <PopupItem as="li">Котлета из говядины</PopupItem>
-                <PopupItem as="li">Красный лук</PopupItem>
-                <PopupItem as="li">Листья салата</PopupItem>
-                <PopupItem as="li">Соус горчичный</PopupItem>
+                {popupContent && popupContent.structure
+                  ? popupContent.structure.map((ingredient) => (
+                      <PopupItem as="li">{ingredient}</PopupItem>
+                    ))
+                  : ''}
               </PopupList>
-              <PopupWeight>520г, ккал 430</PopupWeight>
+              <PopupWeight>{popupContent.weight} г.</PopupWeight>
             </div>
             <PopupRow>
               {width > 474 ? (
@@ -154,7 +155,7 @@ function InfoPopup({ width }) {
                     <PopupCount as="span">1</PopupCount>
                     <PopupCounterButton>+</PopupCounterButton>
                   </PopupCounterContainer>
-                  <PopupPrice as="p">689₽</PopupPrice>
+                  <PopupPrice as="p">{popupContent.price}₽</PopupPrice>
                 </>
               ) : (
                 <>
@@ -167,7 +168,7 @@ function InfoPopup({ width }) {
                 </>
               )}
             </PopupRow>
-            {width <= 474 && <PopupPrice as="p">689₽</PopupPrice>}
+            {width <= 474 && <PopupPrice as="p">{popupContent.price}₽</PopupPrice>}
           </InfoPopupContent>
         </InfoPopupMain>
         <ButtonClose onClick={() => dispatch(closePopups())} />

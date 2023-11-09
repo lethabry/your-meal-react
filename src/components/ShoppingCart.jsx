@@ -5,7 +5,7 @@ import { shoppingCartArray } from '../utils/shoppingCartArray';
 import ShoppingCartItem from './ShoppingCartItem';
 import deliveryIcon from '../images/Доставка.png';
 import { Counter, TitleMiddle, Button } from '../universalStyles/universalStyles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { openDeliveryPopup } from '../store/popupSlice';
 
 const ShoppingCartContainer = styled.article`
@@ -93,8 +93,11 @@ const DeliveryContainer = styled.div`
 
 function ShoppingCart() {
   const dispatch = useDispatch();
+  const shoppingCartList = useSelector((state) => state.shoppingCart.shoppingCart);
   const [isClicked, setIsClicked] = useState(false);
   const handleClick = () => setIsClicked(!isClicked);
+
+  console.log(shoppingCartList);
 
   return (
     <ShoppingCartContainer $isClicked={isClicked}>
@@ -102,14 +105,15 @@ function ShoppingCart() {
         <ShoppingCartTitle>Корзина</ShoppingCartTitle>
         <Counter>4</Counter>
       </TitleContainer>
-      {shoppingCartArray.map((item) => (
+      {shoppingCartList.map((item) => (
         <ShoppingCartItem
-          key={item.id}
+          key={item._id}
+          id={item._id}
           name={item.name}
           weight={item.weight}
           price={item.price}
-          src={item.src}
-          count={item.count}
+          src={item.image}
+          count={item.amount}
         />
       ))}
       <TitleContainer>

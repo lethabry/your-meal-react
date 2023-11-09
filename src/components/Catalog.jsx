@@ -52,7 +52,7 @@ function Catalog({ width }) {
     <Wrapper>
       {width > 930 && <ShoppingCart />}
       <CatalogContainer>
-        <CatalogTitle>{selectedLink.name}</CatalogTitle>
+        <CatalogTitle>{selectedLink && selectedLink.name ? selectedLink.name : ''}</CatalogTitle>
         <ProductList />
       </CatalogContainer>
     </Wrapper>

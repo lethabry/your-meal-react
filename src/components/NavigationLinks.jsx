@@ -1,7 +1,5 @@
 import React from 'react';
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { setActive } from '../store/linksSlice';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import NavigationLink from './NavigationLink';
 
@@ -27,21 +25,11 @@ const Links = styled.ul`
 
 function NavigationLinks() {
   const navigateLinks = useSelector((state) => state.links.links);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(setActive('Бургеры'));
-  }, []);
 
   return (
     <Links>
       {navigateLinks.map((link) => (
-        <NavigationLink
-          link={link}
-          key={link.id}
-          name={link.name}
-          icon={link.src}
-          selected={link.selected}
-        />
+        <NavigationLink key={link._id} name={link.name} icon={link.src} selected={link.selected} />
       ))}
     </Links>
   );

@@ -1,22 +1,29 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { links } from '../utils/linksArray';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { getNavigationLinks } from '../utils/api';
+
+export const fetchLinks = createAsyncThunk('link/getLinks', async () => await getNavigationLinks());
 
 const LinkSlice = createSlice({
   name: 'link',
   initialState: {
-    links: links,
+    links: [],
   },
   reducers: {
     setActive(state, action) {
       state.links = state.links.map((link) => {
         if (link.name === action.payload) {
-          link.selected = !link.selected;
+          link.selected = true;
         } else {
           link.selected = false;
         }
         return link;
       });
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchLinks.fulfilled, (state, action) => {
+      state.links = action.payload;
+    });
   },
 });
 

@@ -8,6 +8,7 @@ import {
 } from '../universalStyles/universalStyles';
 import { useDispatch } from 'react-redux';
 import { openInfoPopup } from '../store/popupSlice';
+import { deleteProductFetch, changeAmountFetch } from '../store/shoppingCartSlice';
 
 const Item = styled.div`
   display: grid;
@@ -26,6 +27,9 @@ const Image = styled.img.attrs((props) => ({
   alt: `Фотография ${props.name}`,
 }))`
   grid-row: 1/4;
+  border-radius: 8px;
+  max-weight: 64px;
+  max-height: 52px;
   cursor: pointer;
 `;
 
@@ -37,8 +41,19 @@ const Price = styled(Text)`
   grid-row: 3/4;
 `;
 
-function ShoppingCartItem({ name, weight, price, src, count }) {
+function ShoppingCartItem({ id, name, weight, price, src, count }) {
   const dispatch = useDispatch();
+
+  const deleteProductFromShoppingCart = (productId) => {
+    dispatch(deleteProductFetch(productId));
+  };
+
+  const changeProductAmount = (productId, count) => {
+    const amount = count + 1;
+    const data = { productId, amount };
+    dispatch(changeAmountFetch(data));
+  };
+
   return (
     <Item>
       <Image src={src} name={name} onClick={() => dispatch(openInfoPopup())} />
@@ -46,9 +61,9 @@ function ShoppingCartItem({ name, weight, price, src, count }) {
       <ShoppingCartItemWeight>{weight}&#160;г</ShoppingCartItemWeight>
       <Price>{price}&#160;₽</Price>
       <CounterContainer>
-        <CounterButton>-</CounterButton>
+        <CounterButton onClick={() => deleteProductFromShoppingCart(id)}>-</CounterButton>
         <Count as="span">{count}</Count>
-        <CounterButton>+</CounterButton>
+        <CounterButton onClick={() => changeProductAmount(id, count)}>+</CounterButton>
       </CounterContainer>
     </Item>
   );

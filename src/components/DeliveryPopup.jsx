@@ -168,7 +168,7 @@ function DeliveryPopup() {
   const dispatch = useDispatch();
   const [deliveryState, setDeliveryState] = useState({ selected: 'delivery' });
   const handleChangeDelivery = (e) => setDeliveryState({ selected: e.target.value });
-  const isPopupOpen = useSelector((state) => state.popup.isDeliveryPopupOpen);
+  const isPopupOpen = useSelector((state) => state.popup.deliveryPopup.isDeliveryPopupOpen);
 
   return (
     <Popup $isPopupOpen={isPopupOpen}>
