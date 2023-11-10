@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import {
   Popup,
   PopupBlock,
@@ -10,6 +11,7 @@ import {
 import DeliveryImagePath from '../images/Delivery.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { closePopups } from '../store/popupSlice';
+import { resetPhoneInput, handleInputPhoneChange } from '../utils/phoneMask';
 
 const DeliveryBlockPopup = styled(PopupBlock)`
   padding: 0;
@@ -67,7 +69,6 @@ const FormInputName = styled.input.attrs(() => ({
   minLength: 2,
   maxLength: 32,
 }))`
-  margin-bottom: 8px;
   border-radius: 12px;
   border: 1px solid #f2f2f3;
   background: #fff;
@@ -85,9 +86,7 @@ const FormInputName = styled.input.attrs(() => ({
 const FormInputPhone = styled(FormInputName).attrs(() => ({
   placeholder: 'Телефон',
   type: 'tel',
-}))`
-  margin-bottom: 16px;
-`;
+}))``;
 
 const FormInputAddress = styled(FormInputName).attrs(() => ({
   placeholder: 'Улица, дом, квартира',
@@ -164,11 +163,31 @@ const DeliveryButton = styled(Button).attrs(() => ({
   }
 `;
 
+const ErrorMessage = styled.p`
+  margin: 0;
+  color: rgba(183, 65, 40, 1);
+  font-size: 8px;
+  height: 8px;
+`;
+
+const ErrorMessageMargin = styled(ErrorMessage)`
+  margin-bottom: 8px;
+`;
+
 function DeliveryPopup() {
   const dispatch = useDispatch();
   const [deliveryState, setDeliveryState] = useState({ selected: 'delivery' });
   const handleChangeDelivery = (e) => setDeliveryState({ selected: e.target.value });
   const isPopupOpen = useSelector((state) => state.popup.deliveryPopup.isDeliveryPopupOpen);
+  const {
+    register,
+    formState: { errors },
+    reset,
+  } = useForm({ mode: 'onChange' });
+
+  useEffect(() => {
+    reset();
+  }, [isPopupOpen]);
 
   return (
     <Popup $isPopupOpen={isPopupOpen}>
@@ -179,8 +198,40 @@ function DeliveryPopup() {
         <DeliveryFormContent>
           <DeliveryPopupTitle>Доставка</DeliveryPopupTitle>
           <DeliveryForm>
-            <FormInputName />
-            <FormInputPhone />
+            <FormInputName
+              {...register('name', {
+                required: 'Это поле обязательно к заполнению',
+                minLength: {
+                  value: 2,
+                  message: 'Поле не должно быть короче 2 символов',
+                },
+                maxLength: {
+                  value: 32,
+                  message: 'Это поле не должно быть больше 32 символов',
+                },
+                pattern: {
+                  value: /^[а-яА-Яa-zA-Z\-]+$/,
+                  message: 'Имя должно состоять из букв русского алфавита',
+                },
+              })}
+            />
+            <ErrorMessage>
+              {errors && errors.name ? `${errors.name.message}` || 'Поле заполнено неверно' : ''}
+            </ErrorMessage>
+            <FormInputPhone
+              {...register('phone', {
+                required: 'Это поле обязательно к заполнению',
+                pattern: {
+                  value: /^(8|\+7)\s\(\d{3}\)\s\d{3}\-\d{2}\-\d{2}$/,
+                  message: 'Некорректный номер',
+                },
+              })}
+              onInput={handleInputPhoneChange}
+              onKeyDown={resetPhoneInput}
+            />
+            <ErrorMessageMargin>
+              {errors && errors.phone ? `${errors.phone.message}` || 'Поле заполнено неверно' : ''}
+            </ErrorMessageMargin>
             <RadioRow>
               <FormRadioPickupInput
                 checked={deliveryState.selected === 'pickup'}
@@ -195,10 +246,50 @@ function DeliveryPopup() {
               />
               <FormRadioDeliveryLabel>Доставка</FormRadioDeliveryLabel>
             </RadioRow>
-            <FormInputAddress $deliveryState={deliveryState} />
+            <FormInputAddress
+              $deliveryState={deliveryState}
+              {...register('address', {
+                required: 'Это поле обязательно к заполнению',
+                minLength: {
+                  value: 8,
+                  message: 'Поле не должно быть короче 8 символов',
+                },
+                maxLength: {
+                  value: 64,
+                  message: 'Это поле не должно быть больше 64 символов',
+                },
+              })}
+            />
+            <ErrorMessage>
+              {errors && errors.address
+                ? `${errors.address.message}` || 'Поле заполнено неверно'
+                : ''}
+            </ErrorMessage>
             <RadioRowDeliveryAdress $deliveryState={deliveryState}>
-              <FormInputFloor />
-              <FormInputIntercom />
+              <div>
+                <FormInputFloor
+                  {...register('floor', {
+                    required: 'Это поле обязательно к заполнению',
+                  })}
+                />
+                <ErrorMessage>
+                  {errors && errors.floor
+                    ? `${errors.floor.message}` || 'Поле заполнено неверно'
+                    : ''}
+                </ErrorMessage>
+              </div>
+              <div>
+                <FormInputIntercom
+                  {...register('intercom', {
+                    required: 'Это поле обязательно к заполнению',
+                  })}
+                />
+                <ErrorMessage>
+                  {errors && errors.intercom
+                    ? `${errors.intercom.message}` || 'Поле заполнено неверно'
+                    : ''}
+                </ErrorMessage>
+              </div>
             </RadioRowDeliveryAdress>
             <DeliveryButton>Оформить</DeliveryButton>
           </DeliveryForm>
