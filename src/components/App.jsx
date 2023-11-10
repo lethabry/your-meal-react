@@ -13,6 +13,7 @@ import ShoppingCart from './ShoppingCart';
 import InfoPopup from './InfoPopup';
 import DeliveryPopup from './DeliveryPopup';
 import { INITIAL_LINK_NAME } from '../utils/constants';
+
 function App() {
   const dispatch = useDispatch();
 

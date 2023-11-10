@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import {
   TitleBig,
@@ -11,9 +12,14 @@ import {
   PopupBlock,
   ButtonClose,
 } from '../universalStyles/universalStyles';
-import ImagePath from '../images/burger_1.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { closePopups } from '../store/popupSlice';
+import {
+  addProductFetch,
+  getShoppingCartFetch,
+  deleteProductFetch,
+  changeAmountFetch,
+} from '../store/shoppingCartSlice';
 
 const PopupTitle = styled(TitleBig)`
   margin-bottom: 24px;
@@ -125,6 +131,53 @@ function InfoPopup({ width }) {
   const dispatch = useDispatch();
   const isPopupOpen = useSelector((state) => state.popup.infoPopup.isInfoPopupOpen);
   const popupContent = useSelector((state) => state.popup.infoPopup.content);
+  const shoppingCartList = useSelector((state) => state.shoppingCart.shoppingCart);
+  const [updatedPopupFields, setUpdatedPopupFields] = useState({
+    isInShoppingCart: false,
+    amount: null,
+    currentId: null,
+  });
+
+  useEffect(() => {
+    setUpdatedPopupFields(() => {
+      const isInShoppingCart = shoppingCartList.some(
+        (item) => item.name === popupContent.name && item.image === popupContent.image
+      );
+      const isMatch = shoppingCartList.find(
+        (item) => item.name == popupContent.name && item.image === popupContent.image
+      );
+      const amount = isMatch ? isMatch.amount : 1;
+      const currentId = isMatch ? isMatch._id : null;
+      return { isInShoppingCart, amount, currentId };
+    });
+  }, [shoppingCartList, isPopupOpen]);
+
+  const addProduct = (product) => {
+    dispatch(addProductFetch(product)).then(() => dispatch(getShoppingCartFetch()));
+  };
+
+  const deleteProductFromShoppingCart = (productId) => {
+    dispatch(deleteProductFetch(productId)).then(() => dispatch(getShoppingCartFetch()));
+  };
+
+  const changeProductAmount = (productId, count, operator) => {
+    if (count === 1 && operator === '-') {
+      deleteProductFromShoppingCart(productId);
+      return;
+    }
+    let amount;
+    switch (operator) {
+      case '+':
+        amount = count + 1;
+        break;
+      case '-':
+        amount = count - 1;
+        break;
+    }
+    const data = { productId, amount };
+    dispatch(changeAmountFetch(data)).then(() => dispatch(getShoppingCartFetch()));
+  };
+
   return (
     <Popup $isPopupOpen={isPopupOpen}>
       <PopupBlock>
@@ -132,7 +185,11 @@ function InfoPopup({ width }) {
         <InfoPopupMain>
           <InfoPopupContent>
             <InfoPopupImage src={popupContent.image} alt={`Фотография ${popupContent.name}`} />
-            {width > 474 && <PopupButton>Добавить</PopupButton>}
+            {width > 474 && (
+              <PopupButton onClick={() => addProduct(popupContent)}>
+                {updatedPopupFields.isInShoppingCart ? 'Добавлено' : 'Добавить'}
+              </PopupButton>
+            )}
           </InfoPopupContent>
           <InfoPopupContent>
             <div>
@@ -140,8 +197,10 @@ function InfoPopup({ width }) {
               <PopupList>
                 Состав:
                 {popupContent && popupContent.structure
-                  ? popupContent.structure.map((ingredient) => (
-                      <PopupItem as="li">{ingredient}</PopupItem>
+                  ? popupContent.structure.map((ingredient, index) => (
+                      <PopupItem key={index} as="li">
+                        {ingredient}
+                      </PopupItem>
                     ))
                   : ''}
               </PopupList>
@@ -151,18 +210,42 @@ function InfoPopup({ width }) {
               {width > 474 ? (
                 <>
                   <PopupCounterContainer>
-                    <PopupCounterButton>-</PopupCounterButton>
-                    <PopupCount as="span">1</PopupCount>
-                    <PopupCounterButton>+</PopupCounterButton>
+                    <PopupCounterButton
+                      disabled={!updatedPopupFields.isInShoppingCart}
+                      onClick={() =>
+                        changeProductAmount(
+                          updatedPopupFields.currentId,
+                          updatedPopupFields.amount,
+                          '-'
+                        )
+                      }
+                    >
+                      -
+                    </PopupCounterButton>
+                    <PopupCount as="span">{updatedPopupFields.amount}</PopupCount>
+                    <PopupCounterButton
+                      disabled={!updatedPopupFields.isInShoppingCart}
+                      onClick={() =>
+                        changeProductAmount(
+                          updatedPopupFields.currentId,
+                          updatedPopupFields.amount,
+                          '+'
+                        )
+                      }
+                    >
+                      +
+                    </PopupCounterButton>
                   </PopupCounterContainer>
                   <PopupPrice as="p">{popupContent.price}₽</PopupPrice>
                 </>
               ) : (
                 <>
-                  <PopupButton>Добавить</PopupButton>
+                  <PopupButton>
+                    {updatedPopupFields.isInShoppingCart ? 'Добавлено' : 'Добавить'}
+                  </PopupButton>
                   <PopupCounterContainer>
                     <PopupCounterButton>-</PopupCounterButton>
-                    <PopupCount as="span">1</PopupCount>
+                    <PopupCount as="span">{updatedPopupFields.amount}</PopupCount>
                     <PopupCounterButton>+</PopupCounterButton>
                   </PopupCounterContainer>
                 </>
