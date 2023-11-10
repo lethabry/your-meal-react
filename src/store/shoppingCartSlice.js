@@ -34,23 +34,25 @@ const shoppingCartSlice = createSlice({
   name: 'shoppingCart',
   initialState: {
     shoppingCart: [],
+    summaryAmount: 0,
+    summaryPrice: 0,
   },
   reducers: {
     deleteProduct(state, action) {
       state.shoppingCart = state.shoppingCart.filter((item) => item._id !== action.payload);
     },
-    changeAmount(state, action) {
-      state.shoppingCart = state.shoppingCart.map((item) => {
-        if (item._id === action.payload._id) {
-          item.amount = action.payload.amount;
-        }
-      });
-    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getShoppingCartFetch.fulfilled, (state, action) => {
+        const data = action.payload;
         state.shoppingCart = action.payload;
+        state.summaryAmount = data
+          .map((item) => item.amount)
+          .reduce((current, next) => current + next, 0);
+        state.summaryPrice = data
+          .map((item) => item.price * item.amount)
+          .reduce((current, next) => current + next, 0);
       })
       .addCase(addProductFetch.fulfilled, (state, action) => {
         state.shoppingCart.push(action.payload);

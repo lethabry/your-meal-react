@@ -8,7 +8,11 @@ import {
 } from '../universalStyles/universalStyles';
 import { useDispatch } from 'react-redux';
 import { openInfoPopup } from '../store/popupSlice';
-import { deleteProductFetch, changeAmountFetch } from '../store/shoppingCartSlice';
+import {
+  deleteProductFetch,
+  changeAmountFetch,
+  getShoppingCartFetch,
+} from '../store/shoppingCartSlice';
 
 const Item = styled.div`
   display: grid;
@@ -45,13 +49,25 @@ function ShoppingCartItem({ id, name, weight, price, src, count }) {
   const dispatch = useDispatch();
 
   const deleteProductFromShoppingCart = (productId) => {
-    dispatch(deleteProductFetch(productId));
+    dispatch(deleteProductFetch(productId)).then(() => dispatch(getShoppingCartFetch()));
   };
 
-  const changeProductAmount = (productId, count) => {
-    const amount = count + 1;
+  const changeProductAmount = (productId, count, operator) => {
+    if (count === 1 && operator === '-') {
+      deleteProductFromShoppingCart(productId);
+      return;
+    }
+    let amount;
+    switch (operator) {
+      case '+':
+        amount = count + 1;
+        break;
+      case '-':
+        amount = count - 1;
+        break;
+    }
     const data = { productId, amount };
-    dispatch(changeAmountFetch(data));
+    dispatch(changeAmountFetch(data)).then(() => dispatch(getShoppingCartFetch()));
   };
 
   return (
@@ -61,9 +77,9 @@ function ShoppingCartItem({ id, name, weight, price, src, count }) {
       <ShoppingCartItemWeight>{weight}&#160;г</ShoppingCartItemWeight>
       <Price>{price}&#160;₽</Price>
       <CounterContainer>
-        <CounterButton onClick={() => deleteProductFromShoppingCart(id)}>-</CounterButton>
+        <CounterButton onClick={() => changeProductAmount(id, count, '-')}>-</CounterButton>
         <Count as="span">{count}</Count>
-        <CounterButton onClick={() => changeProductAmount(id, count)}>+</CounterButton>
+        <CounterButton onClick={() => changeProductAmount(id, count, '+')}>+</CounterButton>
       </CounterContainer>
     </Item>
   );

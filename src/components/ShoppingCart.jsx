@@ -94,16 +94,17 @@ const DeliveryContainer = styled.div`
 function ShoppingCart() {
   const dispatch = useDispatch();
   const shoppingCartList = useSelector((state) => state.shoppingCart.shoppingCart);
+  const summaryCount = useSelector((state) => state.shoppingCart.summaryAmount);
+  const summaryPrice = useSelector((state) => state.shoppingCart.summaryPrice);
+
   const [isClicked, setIsClicked] = useState(false);
   const handleClick = () => setIsClicked(!isClicked);
-
-  console.log(shoppingCartList);
 
   return (
     <ShoppingCartContainer $isClicked={isClicked}>
       <TitleContainer onClick={handleClick}>
         <ShoppingCartTitle>Корзина</ShoppingCartTitle>
-        <Counter>4</Counter>
+        <Counter>{summaryCount}</Counter>
       </TitleContainer>
       {shoppingCartList.map((item) => (
         <ShoppingCartItem
@@ -118,7 +119,7 @@ function ShoppingCart() {
       ))}
       <TitleContainer>
         <SubTitle>Итого</SubTitle>
-        <Price>1279&#160;₽</Price>
+        <Price>{summaryPrice}&#160;₽</Price>
       </TitleContainer>
       <ShoppingCartButton onClick={() => dispatch(openDeliveryPopup())}>
         Оформить заказ

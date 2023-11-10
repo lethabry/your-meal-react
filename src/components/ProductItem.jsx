@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { TitleMiddle, Text, Weight, Button } from '../universalStyles/universalStyles';
 import { useDispatch } from 'react-redux';
 import { openInfoPopup, getInfoPopupContent } from '../store/popupSlice';
-import { addProductFetch } from '../store/shoppingCartSlice';
+import { addProductFetch, getShoppingCartFetch } from '../store/shoppingCartSlice';
 
 const ProductItemContainer = styled.li`
   display: flex;
@@ -75,7 +75,7 @@ function ProductItem({ product }) {
     dispatch(getInfoPopupContent(product));
   };
   const addProduct = (product) => {
-    dispatch(addProductFetch(product));
+    dispatch(addProductFetch(product)).then(() => dispatch(getShoppingCartFetch()));
   };
 
   return (
