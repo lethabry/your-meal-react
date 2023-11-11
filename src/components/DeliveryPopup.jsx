@@ -12,6 +12,7 @@ import DeliveryImagePath from '../images/Delivery.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { closePopups } from '../store/popupSlice';
 import { resetPhoneInput, handleInputPhoneChange } from '../utils/phoneMask';
+import { cleanShoppingCartFetch } from '../store/shoppingCartSlice';
 
 const DeliveryBlockPopup = styled(PopupBlock)`
   padding: 0;
@@ -57,7 +58,9 @@ const DeliveryFormContent = styled.div`
   }
 `;
 
-const DeliveryForm = styled.form`
+const DeliveryForm = styled.form.attrs(() => ({
+  method: 'post',
+}))`
   padding-top: 16px;
   display: flex;
   flex-direction: column;
@@ -183,7 +186,14 @@ function DeliveryPopup() {
     register,
     formState: { errors },
     reset,
+    handleSubmit,
   } = useForm({ mode: 'onChange' });
+
+  const onSubmit = () => {
+    dispatch(cleanShoppingCartFetch()).then(() => {
+      dispatch(closePopups());
+    });
+  };
 
   useEffect(() => {
     reset();
@@ -195,7 +205,7 @@ function DeliveryPopup() {
         <ImageContent>
           <ImagePopup src={DeliveryImagePath} />
         </ImageContent>
-        <DeliveryFormContent>
+        <DeliveryFormContent onSubmit={handleSubmit(onSubmit)}>
           <DeliveryPopupTitle>Доставка</DeliveryPopupTitle>
           <DeliveryForm>
             <FormInputName

@@ -1,6 +1,7 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { TitleMiddle, Text, Weight, Button } from '../universalStyles/universalStyles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { openInfoPopup, getInfoPopupContent } from '../store/popupSlice';
 import { addProductFetch, getShoppingCartFetch } from '../store/shoppingCartSlice';
 
@@ -59,8 +60,10 @@ const ProductItemWeight = styled(Weight)`
   }
 `;
 
-const ProductItemButton = styled(Button)`
-  background-color: #f2f2f3;
+const ProductItemButton = styled(Button).attrs((props) => ({
+  isInShoppingCart: props.isInShoppingCart,
+}))`
+  background-color: ${(props) => (props.$isInShoppingCart ? '#FFAB08' : '#f2f2f3')};
   color: #000;
   @media (max-width: 930px) {
     font-size: 12px;
@@ -69,11 +72,20 @@ const ProductItemButton = styled(Button)`
 
 function ProductItem({ product }) {
   const dispatch = useDispatch();
+  const shoppingCartList = useSelector((state) => state.shoppingCart.shoppingCart);
+  const [isInShoppingCart, setIsInShoppingCart] = useState(false);
+
+  useEffect(() => {
+    setIsInShoppingCart(
+      shoppingCartList.some((item) => item.name === product.name && item.image === product.image)
+    );
+  }, [shoppingCartList]);
 
   const handleClick = (product) => {
     dispatch(openInfoPopup());
     dispatch(getInfoPopupContent(product));
   };
+
   const addProduct = (product) => {
     dispatch(addProductFetch(product)).then(() => dispatch(getShoppingCartFetch()));
   };
@@ -88,7 +100,13 @@ function ProductItem({ product }) {
       <ProductItemPrice>{product.price} &#160;₽</ProductItemPrice>
       <ProductItemName>{product.name}</ProductItemName>
       <ProductItemWeight>{product.weight}&#160;г</ProductItemWeight>
-      <ProductItemButton onClick={() => addProduct(product)}>Добавить</ProductItemButton>
+      <ProductItemButton
+        $isInShoppingCart={isInShoppingCart}
+        disabled={isInShoppingCart}
+        onClick={() => addProduct(product)}
+      >
+        {isInShoppingCart ? 'Добавлено' : 'Добавить'}
+      </ProductItemButton>
     </ProductItemContainer>
   );
 }

@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { LinkIcon } from './NavigationLink';
-import { shoppingCartArray } from '../utils/shoppingCartArray';
 import ShoppingCartItem from './ShoppingCartItem';
 import deliveryIcon from '../images/Доставка.png';
-import { Counter, TitleMiddle, Button } from '../universalStyles/universalStyles';
+import { Counter, TitleMiddle, Button, Text } from '../universalStyles/universalStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { openDeliveryPopup } from '../store/popupSlice';
 
 const ShoppingCartContainer = styled.article`
   display: flex;
-  padding: 24px 16px;
+  box-sizing: border-box;
+  padding: 21px 16px;
   flex-direction: column;
   background-color: #ffffff;
-  min-width: 268px;
+  min-width: 300px;
+  max-width: 300px;
   margin-top: 72px;
   border-radius: 18px;
 
@@ -35,6 +36,8 @@ const ShoppingCartContainer = styled.article`
 const TitleContainer = styled.div`
   display: flex;
   width: 100%;
+  padding-bottom: 12px;
+  border-bottom: ${(props) => (props.$isEmpty ? 'none' : '1px solid #F2F2F3')};
 `;
 
 const ShoppingCartTitle = styled(TitleMiddle)`
@@ -67,7 +70,7 @@ const Price = styled(SubTitle)`
 
 const ShoppingCartButton = styled(Button)`
   margin-bottom: 8px;
-  margin-top: 24px;
+  margin-top: 12px;
 
   @media (max-width: 930px) {
     font-size: 12px;
@@ -91,43 +94,48 @@ const DeliveryContainer = styled.div`
   gap: 8px;
 `;
 
+const ShoppingCartEmptyTest = styled(Text)`
+  line-height: 130%;
+`;
+
 function ShoppingCart() {
   const dispatch = useDispatch();
   const shoppingCartList = useSelector((state) => state.shoppingCart.shoppingCart);
   const summaryCount = useSelector((state) => state.shoppingCart.summaryAmount);
   const summaryPrice = useSelector((state) => state.shoppingCart.summaryPrice);
 
+  const [isEmpty, setIsEmpty] = useState(true);
+  useEffect(() => setIsEmpty(shoppingCartList.length === 0), [shoppingCartList]);
+
   const [isClicked, setIsClicked] = useState(false);
   const handleClick = () => setIsClicked(!isClicked);
 
   return (
     <ShoppingCartContainer $isClicked={isClicked}>
-      <TitleContainer onClick={handleClick}>
+      <TitleContainer $isEmpty={isEmpty} onClick={handleClick}>
         <ShoppingCartTitle>Корзина</ShoppingCartTitle>
         <Counter>{summaryCount}</Counter>
       </TitleContainer>
-      {shoppingCartList.map((item) => (
-        <ShoppingCartItem
-          key={item._id}
-          id={item._id}
-          name={item.name}
-          weight={item.weight}
-          price={item.price}
-          src={item.image}
-          count={item.amount}
-        />
-      ))}
-      <TitleContainer>
-        <SubTitle>Итого</SubTitle>
-        <Price>{summaryPrice}&#160;₽</Price>
-      </TitleContainer>
-      <ShoppingCartButton onClick={() => dispatch(openDeliveryPopup())}>
-        Оформить заказ
-      </ShoppingCartButton>
-      <DeliveryContainer>
-        <LinkIcon src={deliveryIcon} alt="Значок доставки" />
-        <Delivery>Бесплатная доставка</Delivery>
-      </DeliveryContainer>
+      {isEmpty ? (
+        <ShoppingCartEmptyTest>{`Тут пока пусто :(`}</ShoppingCartEmptyTest>
+      ) : (
+        <>
+          {shoppingCartList.map((item) => (
+            <ShoppingCartItem key={item._id} product={item} />
+          ))}
+          <TitleContainer>
+            <SubTitle>Итого</SubTitle>
+            <Price>{summaryPrice}&#160;₽</Price>
+          </TitleContainer>
+          <ShoppingCartButton onClick={() => dispatch(openDeliveryPopup())}>
+            Оформить заказ
+          </ShoppingCartButton>
+          <DeliveryContainer>
+            <LinkIcon src={deliveryIcon} alt="Значок доставки" />
+            <Delivery>{summaryPrice > 599 ? 'Бесплатная доставка' : 'Доставка платная'}</Delivery>
+          </DeliveryContainer>
+        </>
+      )}
     </ShoppingCartContainer>
   );
 }

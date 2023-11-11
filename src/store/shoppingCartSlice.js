@@ -4,6 +4,7 @@ import {
   addProductToShoppingCart,
   changeProductAmountInShoppingCart,
   deleteProductFromShoppingCart,
+  cleanShoppingCart,
 } from '../utils/api';
 
 export const getShoppingCartFetch = createAsyncThunk(
@@ -29,6 +30,11 @@ export const changeAmountFetch = createAsyncThunk('shoppingCart/changeAmount', a
   const response = await changeProductAmountInShoppingCart(productId, amount);
   return response;
 });
+
+export const cleanShoppingCartFetch = createAsyncThunk(
+  'shoppingCart/clean',
+  async () => await cleanShoppingCart()
+);
 
 const shoppingCartSlice = createSlice({
   name: 'shoppingCart',
@@ -64,6 +70,10 @@ const shoppingCartSlice = createSlice({
             return item;
           }
         });
+      })
+      .addCase(cleanShoppingCartFetch.fulfilled, (state, action) => {
+        state.shoppingCart = [];
+        state.summaryAmount = 0;
       });
   },
 });

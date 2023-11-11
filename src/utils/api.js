@@ -29,12 +29,12 @@ export const getShoppingCart = () => {
 };
 
 export const addProductToShoppingCart = (product) => {
-  const { name, image, price, weight, structure, category } = product;
+  const { name, image, price, weight, structure, category, description } = product;
   return fetch(`${BASE_URL}/shopping-cart`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
-    body: JSON.stringify({ name, image, price, weight, structure, category }),
+    body: JSON.stringify({ name, image, price, weight, structure, category, description }),
   }).then(checkResponse);
 };
 
@@ -49,6 +49,14 @@ export const changeProductAmountInShoppingCart = (productId, amount) => {
 
 export const deleteProductFromShoppingCart = (productId) => {
   return fetch(`${BASE_URL}/shopping-cart/${productId}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+  }).then(checkResponse);
+};
+
+export const cleanShoppingCart = () => {
+  return fetch(`${BASE_URL}/shopping-cart`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',

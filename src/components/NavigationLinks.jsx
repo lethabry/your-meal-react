@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import NavigationLink from './NavigationLink';
+import { navigationLinksIcons } from '../utils/navigationLinksIcons';
 
 const Links = styled.ul`
   display: flex;
@@ -28,8 +29,13 @@ function NavigationLinks() {
 
   return (
     <Links>
-      {navigateLinks.map((link) => (
-        <NavigationLink key={link._id} name={link.name} icon={link.src} selected={link.selected} />
+      {navigateLinks.map((link, index) => (
+        <NavigationLink
+          key={link._id}
+          name={link.name}
+          icon={navigationLinksIcons[index]}
+          selected={link.selected}
+        />
       ))}
     </Links>
   );
