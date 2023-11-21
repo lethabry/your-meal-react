@@ -19,5 +19,4 @@ const productsSlice = createSlice({
   },
 });
 
-export const { filterProducts } = productsSlice.actions;
 export default productsSlice.reducer;

@@ -71,7 +71,7 @@ const shoppingCartSlice = createSlice({
           }
         });
       })
-      .addCase(cleanShoppingCartFetch.fulfilled, (state, action) => {
+      .addCase(cleanShoppingCartFetch.fulfilled, (state) => {
         state.shoppingCart = [];
         state.summaryAmount = 0;
       });
